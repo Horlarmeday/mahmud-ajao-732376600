@@ -6,7 +6,10 @@ import { Dialect } from 'sequelize';
 import * as dotenv from 'dotenv';
 import { ConfigModule } from '@nestjs/config';
 import { ActivitiesModule } from './modules/activities/activities.module';
-import { TokensModule } from './modules/tokens/tokens.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
+import { Token } from './modules/activities/entities/token.entity';
+import { Activity } from './modules/activities/entities/activity.entity';
+import { ScheduleModule } from '@nestjs/schedule';
 
 dotenv.config();
 
@@ -20,10 +23,11 @@ dotenv.config();
       username: process.env.DB_USER,
       password: process.env.DB_PASS,
       database: process.env.DB_NAME,
-      models: [],
+      models: [Token, Activity],
     }),
     ActivitiesModule,
-    TokensModule,
+    EventEmitterModule.forRoot(),
+    ScheduleModule.forRoot(),
   ],
   controllers: [AppController],
   providers: [AppService],
