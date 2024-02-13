@@ -6,7 +6,7 @@ import {
   Table,
 } from 'sequelize-typescript';
 
-@Table
+@Table({ timestamps: false })
 export class Token extends Model {
   @PrimaryKey
   @Column({ type: DataType.INTEGER, allowNull: false, autoIncrement: true })
@@ -15,6 +15,7 @@ export class Token extends Model {
   @Column({
     type: DataType.STRING,
     allowNull: false,
+    unique: true,
     validate: {
       notEmpty: {
         msg: 'index id is required',
@@ -24,8 +25,9 @@ export class Token extends Model {
   index: string;
 
   @Column({
-    type: DataType.TEXT,
+    type: DataType.STRING,
     allowNull: false,
+    unique: true,
     validate: {
       notEmpty: {
         msg: 'contract_address id is required',
@@ -36,12 +38,7 @@ export class Token extends Model {
 
   @Column({
     type: DataType.INTEGER,
-    allowNull: false,
-    validate: {
-      notEmpty: {
-        msg: 'current_price id is required',
-      },
-    },
+    allowNull: true,
   })
   current_price: number;
 }
